@@ -24,10 +24,15 @@ class Dummy extends Component {
 }
 
 export class App extends Component {
-  interactions = [
-    { prompt: "create a class", response: "class created", id: 1 },
-    { prompt: "😍", response: "😘", id: 2 },
-  ];
+  constructor(props) {
+    super(props);
+    this.state = {
+      interactions: [
+        { prompt: "create a class", response: "class created", id: 1 },
+        { prompt: "😍", response: "😘", id: 2 },
+      ],
+    };
+  }
 
   renderInteraction(inter) {
     return <InteractionUI key={inter.id} interaction={inter} />;
@@ -37,14 +42,27 @@ export class App extends Component {
     evt.preventDefault();
     console.log("Adding interaction", evt);
 
-    this.interactions.push({
-      prompt: "hola",
-      response: "hola",
-      id: 3,
+
+  
+
+
+    this.setState({
+      interactions: [
+        ...this.state.interactions,
+        {
+          prompt: "hola",
+          response: "hola",
+          id: 3,
+        },
+      ],
     });
+
+
   };
 
   render() {
+    console.log("render App", this.props, this.state);
+
     return (
       <>
         <NavBar />
@@ -89,7 +107,7 @@ export class App extends Component {
         </form>
 
         <ul>
-          {this.interactions.map(this.renderInteraction)}
+          {this.state.interactions.map(this.renderInteraction)}
 
           <li>
             Dalle Prompt: "create a class" Response: "class created"
@@ -101,7 +119,7 @@ export class App extends Component {
           </li>
         </ul>
 
-        {this.interactions.map((inter) => (
+        {this.state.interactions.map((inter) => (
           <Dummy key={inter.id} interaction={inter} />
         ))}
       </>
