@@ -27,6 +27,8 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      prompt: "write ",
+      response: "",
       interactions: [
         { prompt: "create a class", response: "class created", id: 1 },
         { prompt: "😍", response: "😘", id: 2 },
@@ -40,9 +42,11 @@ export class App extends Component {
 
   onAddInteraction = (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-
-    const newInteraction = Object.fromEntries(formData.entries());
+    
+    const newInteraction = {
+      prompt: this.state.prompt,
+      response: this.state.response,
+    };
 
     newInteraction.id =
       this.state.interactions.length > 0
@@ -80,6 +84,10 @@ export class App extends Component {
                 className="form-control mx-1"
                 type="input"
                 name="prompt"
+                value={this.state.prompt}
+                onInput={(event) => {
+                  this.setState({ prompt: event.target.value });
+                }}
               ></input>
             </label>
           </div>
@@ -90,6 +98,10 @@ export class App extends Component {
                 className="form-control mx-1"
                 type="input"
                 name="response"
+                value={this.state.response}
+                onInput={(event) => {
+                  this.setState({ response: event.target.value });
+                }}
               ></input>
             </label>
           </div>

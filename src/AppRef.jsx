@@ -26,6 +26,10 @@ class Dummy extends Component {
 export class App extends Component {
   constructor(props) {
     super(props);
+
+    this.promptInput = React.createRef();
+    this.responseInput = React.createRef();
+
     this.state = {
       interactions: [
         { prompt: "create a class", response: "class created", id: 1 },
@@ -40,9 +44,11 @@ export class App extends Component {
 
   onAddInteraction = (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-
-    const newInteraction = Object.fromEntries(formData.entries());
+    
+    const newInteraction = {
+      prompt: this.promptInput.current.value,
+      response: this.responseInput.current.value,
+    };
 
     newInteraction.id =
       this.state.interactions.length > 0
@@ -80,6 +86,7 @@ export class App extends Component {
                 className="form-control mx-1"
                 type="input"
                 name="prompt"
+                ref = {this.promptInput}
               ></input>
             </label>
           </div>
@@ -90,6 +97,7 @@ export class App extends Component {
                 className="form-control mx-1"
                 type="input"
                 name="response"
+                ref = {this.responseInput}
               ></input>
             </label>
           </div>
